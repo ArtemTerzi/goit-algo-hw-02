@@ -1,29 +1,19 @@
-from queue import Queue
-import random
-import time
+from collections import deque
 
-q = Queue()
+def is_palindrome(text):
+    normalized_text = ''.join(char.lower() for char in text if char.isalnum())
+    dq = deque(normalized_text)
 
-def generate_request():
-    request = f'REQ-{random.randint(1, 999999)}'
-    q.put(request)
-
-def process_request():
-    if not q.empty():
-        req = q.get()
-        print(f"Request {req} is resolved")
-    else:
-        print("The queue is empty")
+    while len(dq) > 1:
+        if dq.popleft() != dq.pop():
+            return False
+    
+    return True
 
 def main():
-    while True:
-        print(q.queue)
-        time.sleep(random.randint(1, 5))
-        generate_request()
+    print(is_palindrome('Anna'))
+    print(is_palindrome('qq'))
+    print(is_palindrome('quest'))
 
-        if random.randint(0,1):
-            process_request()
-
-
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()
